@@ -3,13 +3,13 @@ import cv2
 import csv
 import os
 
-#Recebendo todos os caminhos q terminem em .png
-images1 = glob.glob("C:/episodes/episode_1 - 1/*.png")
-images2 = glob.glob("C:/episodes/episode_1 - 2/*.png")
-images3 = glob.glob("C:/episodes/episode_1 - 3/*.png")
+#Recebendo todos os caminhos q terminem em .pgm
+images1 = glob.glob("C:/episodes/episode_1 - 1/*.pgm")
+images2 = glob.glob("C:/episodes/episode_1 - 2/*.pgm")
+images3 = glob.glob("C:/episodes/episode_1 - 3/*.pgm")
 
 #Criando uma lista para as imagens e outra para seus respectivos nomes
-episode = [cv2.imread(img) for img in images1+images2+images3] 
+episode = [cv2.imread(img,-1) for img in images1+images2+images3] 
 names = [img for img in images1+images2+images3]
 states = []
 
