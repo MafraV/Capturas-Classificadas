@@ -7,7 +7,7 @@ import random
 #Carregando os .csv das sequencias
 data1 = csv.reader(open('C:/videos/Episode1/Ep1 - States.csv', 'r'), delimiter=",", quotechar='|')
 data2 = csv.reader(open('C:/videos/Episode2/Ep2 - States.csv', 'r'), delimiter=",", quotechar='|')
-data3 = csv.reader(open('C:/videos/Episode3/Ep3 - States.csv', 'r'), delimiter=",", quotechar='|')
+data3 = csv.reader(open('C:/videos/Episode3/Ep3 - States.csv', 'r'), delimiter=",", quotechar='|') #Alterar os caminhos dos csv para o novo dataset
 data4 = csv.reader(open('C:/videos/Episode4/Ep4 - States.csv', 'r'), delimiter=",", quotechar='|')
 data5 = csv.reader(open('C:/videos/Episode5/Ep5 - States.csv', 'r'), delimiter=",", quotechar='|')
 data6 = csv.reader(open('C:/videos/Episode6/Ep6 - States.csv', 'r'), delimiter=",", quotechar='|')
@@ -82,6 +82,7 @@ train, test = [], []
 statesTrain, statesTest = [], []
 
 #Adicionando a sequencia i ao conjunto de treino e a sequencia i+1 ao de teste
+#Ou seja, dividindo os conjuntos de teste e treino em 50/50, pode ser alterado ao mudar o passo do loop
 for i in range(0,tam1,2):
     seq = sequences1[i]
     if seq[-3]=='-':
@@ -208,7 +209,7 @@ for i in range(0,tamTrain):
     images = [cv2.imread(img,-1) for img in direcs] 
     names = [img for img in direcs]
     os.mkdir(path)
-    for j in range(0,9):
+    for j in range(0,15):
         string = os.path.basename(names[j])
         cv2.imwrite(path+'/'+string,images[j])
 
@@ -227,6 +228,6 @@ for i in range(0,tamTest):
     images = [cv2.imread(img,-1) for img in direcs] 
     names = [img for img in direcs]
     os.mkdir(path)
-    for j in range(0,9):
+    for j in range(0,15):
         string = os.path.basename(names[j])
         cv2.imwrite(path+'/'+string,images[j])

@@ -20,7 +20,7 @@ import numpy as np
 import os
 import os.path
 
-
+#Código do Lucas, até hoje não entendi completamente o que ele faz, mas funciona.
 class SequenceImageIterator(Iterator):
     def __init__(self, directory, image_data_generator,
                  target_size=(256, 256), color_mode='rgb',
@@ -195,6 +195,11 @@ def train_lstm(lstm_units, amount_filters, filters):
         classifier.add(TimeDistributed(Conv2D(amount_filters, filters[1],
                                               activation='relu')))
         classifier.add(TimeDistributed(MaxPooling2D(pool_size=(2, 2))))
+        
+    if len(filters) > 2:
+        classifier.add(TimeDistributed(Conv2D(amount_filters, filters[2],
+                                              activation='relu')))
+        classifier.add(TimeDistributed(MaxPooling2D(pool_size=(2, 2))))
 
     classifier.add(TimeDistributed(Flatten()))
 
@@ -206,7 +211,12 @@ def train_lstm(lstm_units, amount_filters, filters):
                             return_sequences=True if len(lstm_units) > 2
                                              else False))
     if len(lstm_units) > 2:
-        classifier.add(LSTM(units=lstm_units[2], activation='tanh'))
+        classifier.add(LSTM(units=lstm_units[2], activation='tanh', 
+                            return_sequences=True if len(lstm_units) > 3
+                                             else False))
+        
+    if len(lstm_units) > 3:
+        classifier.add(LSTM(units=lstm_units[3], activation='tanh'))    
 
     classifier.add(Dense(units=2, activation='softmax'))
     classifier.compile(optimizer='adam', loss='categorical_crossentropy',
@@ -246,5 +256,5 @@ def train_lstm(lstm_units, amount_filters, filters):
     print(out_str.format(lstm_units, max_weights.max_acc, conf_mat,
                          max_weights.acc_hist), file=open('lstm64.txt', 'w'))
 
-train_lstm([100, 100, 100], 64, [[3, 3], [3, 3]])
+train_lstm([50, 50, 50], 64, [[3, 3]]) #alterar os parâmetros até encontrar o que consegue maior acurácia
 K.clear_session()
